@@ -1,5 +1,5 @@
 ﻿using Xunit;
-using Microsoft.AspNet.TestHost;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.Legal.MatterCenter.Models;
 using System.Net.Http;
 using Microsoft.Legal.MatterCenter.Service;

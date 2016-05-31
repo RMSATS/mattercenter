@@ -29,8 +29,8 @@ using System.Reflection;
 using Microsoft.SharePoint.Client.Taxonomy;
 using System.Text.RegularExpressions;
 using System.IO;
-using Microsoft.AspNet.Http;
-using Microsoft.AspNet.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
 #endregion
 
 namespace Microsoft.Legal.MatterCenter.Repository

@@ -13,7 +13,7 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNet.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.OptionsModel;
 
 using Swashbuckle.SwaggerGen.Annotations;
@@ -26,7 +26,7 @@ using Microsoft.Legal.MatterCenter.Repository;
 using Microsoft.Legal.MatterCenter.Models;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using Microsoft.AspNet.Authorization;
+using Microsoft.AspNetCore.Authorization;
 #endregion
 namespace Microsoft.Legal.MatterCenter.Web
 {

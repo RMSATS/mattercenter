@@ -10,7 +10,7 @@
 // This class deals with all the document related functions such as finding document, pin, unpin
 // ***********************************************************************
 
-using Microsoft.AspNet.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.OptionsModel;
 using Microsoft.Legal.MatterCenter.Models;
 using Microsoft.Legal.MatterCenter.Utility;

@@ -12,7 +12,7 @@
 
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNet.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.OptionsModel;
 using Microsoft.Legal.MatterCenter.Models;
 using Swashbuckle.SwaggerGen.Annotations;
@@ -23,8 +23,8 @@ using Microsoft.Legal.MatterCenter.Utility;
 using Microsoft.Legal.MatterCenter.Repository;
 using Microsoft.Legal.MatterCenter.Web.Common;
 using System.Reflection;
-using Microsoft.AspNet.Authorization;
-using Microsoft.AspNet.Http;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using System.Text.RegularExpressions;
 using System.Globalization;
 using Microsoft.Net.Http.Headers;
