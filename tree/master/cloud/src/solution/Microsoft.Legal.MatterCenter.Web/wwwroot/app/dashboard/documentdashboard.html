@@ -12,39 +12,56 @@
     <div class="documentPopup"></div>
     <div class="clear"></div>
     <!--Start Pop up conatins for documents to send documents to one drive, send email etc-->
-    <div class="popUpContainer hide">
-        <header class="popUpHeader">
-            <div class="popUpHeaderTitle popUpFloatLeft"></div>
-            <div class="notificationContainerForPopup"></div>
-            <img class="mailCartCloseIcon" alt="Close" src="../Images/close-666.png" title="Close" />
-        </header>
-        <div id="PopupBody">
-            <div class="selectMailFormat">
-                <div class="sendEmailOptions sendToOneDriveOption" onclick="sendToBriefcase();">
-                    <img class="mailCartLogo" src="../Images/my-briefcase-666.png" alt="Send to My OneDrive for Business" title="Send to My OneDrive" />
-                    <div title="Send to My OneDrive for Business" class="inlineValues">Send to My OneDrive for Business</div>
-                </div>
-                <div class="sendEmailOptions emailAttachmentOption" onclick="downloadEmail(true);">
-                    <img class="mailCartLogo" src="../Images/attach_666_27X27.png" alt="Email as attachment" title="Email as attachment" /><div title="Email as attachment" class="inlineValues">Email as attachment</div>
-                </div>
-                <div class="sendEmailOptions emailLinkOption" onclick="downloadEmail(false);">
-                    <img class="mailCartLogo" src="../Images/link-666.png" alt="Email as link" title="Email as link" /><div title="Email as link" class="inlineValues">Email as link</div>
-                </div>
-            </div>
-            <div class="popUpBody popUpFloatLeft">
-                <div class="checkOutPopup">
-                    <div class="checkOutPopupPointer"></div>
-                    <div class="checkOutPopupData">
-                        <div class="checkOutMetadata marginTop10"></div>
+
+    <div class="modal fade" id="UploadMatterModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="width:100%">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row margin0">
+                        <div class="col-md-12">
+                            <img data-dismiss="modal" class="pull-right" src="../../images/close-666.png" />
+                        </div>
+                        <div id="PopupBody">
+                            <div class="selectMailFormat">
+                                <div class="sendEmailOptions sendToOneDriveOption" onclick="sendToBriefcase();">
+                                    <img class="mailCartLogo" src="../Images/my-briefcase-666.png" alt="Send to My OneDrive for Business" title="Send to My OneDrive" />
+                                    <div title="Send to My OneDrive for Business" class="inlineValues">Send to My OneDrive for Business</div>
+                                </div>
+                                <div class="sendEmailOptions emailAttachmentOption" onclick="downloadEmail(true);">
+                                    <img class="mailCartLogo" src="../Images/attach_666_27X27.png" alt="Email as attachment" title="Email as attachment" /><div title="Email as attachment" class="inlineValues">Email as attachment</div>
+                                </div>
+                                <div class="sendEmailOptions emailLinkOption" onclick="downloadEmail(false);">
+                                    <img class="mailCartLogo" src="../Images/link-666.png" alt="Email as link" title="Email as link" /><div title="Email as link" class="inlineValues">Email as link</div>
+                                </div>
+                            </div>
+                            <div class="popUpBody popUpFloatLeft">
+                                <ul class="emailDocumentNames">
+                                    <li ng-repeat="element in vm.cartelements">
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-5"><span><input type="checkbox" /></span>{{element.documentName}}</div>
+                                            <div class="col-xs-12 col-sm-1"><img src="../Images/icon-delete.png" class="" title="Remove attachment" ng-click="vm.removeAttachment(element)"></div>
+                                            <div class="col-xs-12 col-sm-5"><span class="checkOut" id="isNotCheckedOut" title="Checked out copy available">Checked out copy available</span></div>
+                                            <div class="col-xs-12 col-sm-1 pad0">
+                                                <button infopopover class="btn btn-link" type='button' style='text-align: left'
+                                                         data-toggle='popover' data-container='body' data-placement='left' data-html='true'>
+                                                    <img src="../Images/information-blue.png" />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <div class='pinLoadingImage' id='mailCartLoadingImage'>
+                                    <img src='/Images/WindowsLoadingFast.GIF' title='Loading' class='LoadingImage' alt='Loading...' />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <ul class="emailDocumentNames"></ul>
-                <div class='pinLoadingImage' id='mailCartLoadingImage'>
-                    <img src='/Images/WindowsLoadingFast.GIF' title='Loading' class='LoadingImage' alt='Loading...' />
-                </div>
             </div>
+
         </div>
     </div>
+
     <!--End Pop up conatins for documents to send documents to one drive, send email etc-->
     <div class="matterCenterHeaderBackground hide"></div>
     <!--Main dashboard content-->
@@ -167,6 +184,19 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col-xs-offset-6 col-xs-6 sortby">
+                <span id="EmailDiv" style="display: inline; cursor: default; color: rgb(68, 68, 68);">
+                    <span id="EmailImg">
+                        <img src="../Images/cart_icon_30px_X_30px.png"
+                             class="mailCartIcon"
+                             title="Review the contents of your mail cart and send the selected documents to your OneDrive or via email."
+                             alt="Mail Cart" ng-click="vm.showMailCartModal()">({{vm.documentsCheckedCount}})
+                    </span>
+                </span>
+            </div>
+
+
             <div class="col-xs-offset-9 col-xs-3 sortby">
                 <div class="col-xs-offset-4 col-xs-8 text-right pad0">
                     <span>Sort by: </span>
@@ -175,17 +205,16 @@
                 </div>
                 <div class="col-xs-offset-7 col-xs-5" ng-if="vm.sortbydrop">
                     <ul>
-                        <li ng-click="vm.sortyby('Relevant')">None</li>
-                        <li ng-click="vm.sortyby('Alphabetical ↑')">Alphabetical ↑</li>
-                        <li ng-click="vm.sortyby('Alphabetical ↓')">Alphabetical ↓</li>
-                        <li ng-click="vm.sortyby('Created date ↑')">Created date ↑</li>
-                        <li ng-click="vm.sortyby('Created date ↓')">Created date ↓</li>
-                        <li ng-click="vm.sortyby('Created date ↑')">Modified date ↑</li>
-                        <li ng-click="vm.sortyby('Created date ↓')">Modified date ↓</li>
+                        <li ng-click="vm.sortyby('Relevant','None')">None</li>
+                        <li ng-click="vm.sortyby('AlphabeticalUp','Alphabetical ↑')">Alphabetical ↑</li>
+                        <li ng-click="vm.sortyby('AlphabeticalDown','Alphabetical ↓')">Alphabetical ↓</li>
+                        <li ng-click="vm.sortyby('CreateddateUp','Created date ↑')">Created date ↑</li>
+                        <li ng-click="vm.sortyby('CreateddateDown','Created date ↓')">Created date ↓</li>
+                        <li ng-click="vm.sortyby('ModifieddateUp','Modified date ↑')">Modified date ↑</li>
+                        <li ng-click="vm.sortyby('ModifieddateDown','Modified date ↓')">Modified date ↓</li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
-
 </div>

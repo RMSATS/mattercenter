@@ -52,7 +52,9 @@
         <div class="row searchdashboard">
             <div class="col-xs-9">
                 <div class="input-group">
-                    <input type="text" ng-model="vm.selected" placeholder="Search by document name, document ID, or keyword" uib-typeahead="matterDataList.matterName + ' ('+ matterDataList.matterID + ')' for matterDataList in vm.searchMatter($viewValue)" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control">
+                    <input type="text" ng-model="vm.searchText" placeholder="Search by document name, document ID, or keyword" 
+                           uib-typeahead="matterDataList.matterName + ' ('+ matterDataList.matterID + ')' for matterDataList in vm.searchMatters($viewValue)" 
+                           typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control">
                     <span class="input-group-addon cursor" id="basic-addon1" ng-click="vm.search()"><i class="glyphicon glyphicon-search"></i></span>
                 </div>
             </div>
@@ -220,17 +222,17 @@
                 </div>
                 <div class="col-xs-offset-7 col-xs-5" ng-if="vm.sortbydrop">
                     <ul>
-                        <li ng-click="vm.sortyby('None')">None</li>
-                        <li ng-click="vm.sortyby('Alphabetical ↑')">Alphabetical ↑</li>
-                        <li ng-click="vm.sortyby('Alphabetical ↓')">Alphabetical ↓</li>
-                        <li ng-click="vm.sortyby('Created date ↑')">Created date ↑</li>
-                        <li ng-click="vm.sortyby('Created date ↓')">Created date ↓</li>
+                        <li ng-click="vm.sortyby('Relevant','None')">None</li>
+                        <li ng-click="vm.sortyby('AlphabeticalUp','Alphabetical ↑')">Alphabetical ↑</li>
+                        <li ng-click="vm.sortyby('AlphabeticalDown','Alphabetical ↓')">Alphabetical ↓</li>
+                        <li ng-click="vm.sortyby('CreateddateUp','Created date ↑')">Created date ↑</li>
+                        <li ng-click="vm.sortyby('CreateddateDown','Created date ↓')">Created date ↓</li>
                     </ul>
                 </div>
             </div>
             <div class="col-xs-12">
                 <div class="tab-content">                    
-                    <div class="tab-pane active" id="mattersGrid">
+                    <div class="tab-pane active" id="mattersGrid" ng-hide="vm.mattersdashboardGrid">
                         <div class="col-xs-12 pad0 padtop5">
                             <div class="" id="grid1" ui-grid="vm.matterGridOptions" ui-grid-exporter ui-grid-selection ui-grid-auto-resize></div>
                         </div>
@@ -339,3 +341,8 @@
         </div>
     </div>
  </div>
+<div id="loadingImageContainer">
+    <div class="lazyLoading" ng-hide="vm.lazyloaderdashboard">
+        <img src="../Images/WindowsLoadingFast.GIF" alt="Loading..." title="Loading..." />
+    </div>
+</div>

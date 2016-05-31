@@ -18,6 +18,8 @@
             vm.sortbydrop = false;
             vm.sortbydropvisible = false;
             vm.sortbytext = 'None';
+            vm.searchText = '';
+            vm.lazyloaderdashboard = true;
             //#endregion
             //#region Variable to show matter count            
             vm.allMatterCount = 0;
@@ -70,6 +72,8 @@
 
             //#region Matter Grid functionality
             vm.matterGridOptions = {
+                enableHorizontalScrollbar: 0,
+                enableVerticalScrollbar: 0,
                 paginationPageSize: gridOptions.paginationPageSize,
                 enableGridMenu: gridOptions.enableGridMenu,
                 enableRowHeaderSelection: gridOptions.enableRowHeaderSelection,
@@ -93,7 +97,7 @@
                         vm.selectedRow = row.entity
                     });
                 }
-            }  
+            }
             //#endregion
 
             //#region API to get the client taxonomy and Practice Group taxonomy
@@ -191,7 +195,32 @@
             }
 
 
-            vm.getMatterPinned = function () {                
+            //SearchRequest Object that will be filled up for different search requirements
+            var jsonMatterSearchRequest = {
+                Client: {
+                    Url: configs.global.repositoryUrl
+                },
+                SearchObject: {
+                    PageNumber: 1,
+                    ItemsPerPage: gridOptions.paginationPageSize,
+                    SearchTerm: '',
+                    Filters: {
+                        ClientsList: [""],
+                        PGList: [""],
+                        AOLList: [""],
+                        FromDate: "",
+                        ToDate: "",
+                        FilterByMe: "0"
+                    },
+                    Sort: {
+                        ByProperty: 'LastModifiedTime',
+                        Direction: 1
+                    }
+                }
+            };
+
+            vm.getMatterPinned = function () {
+                vm.lazyloaderdashboard = false;
                 var pinnedMattersRequest = {
                     Url: "https://msmatter.sharepoint.com/sites/catalog"//ToDo: Read from config.js
                 }
@@ -202,19 +231,55 @@
                     if (!$scope.$$phase) {
                         $scope.$apply();
                     }
-                });  
+                    vm.lazyloaderdashboard = true;
+                });
             }
 
-            vm.search = function () {
-                $scope.lazyloader = false;
+            //This search function will be used when the user enters some text in the search text box
+            vm.searchMatters = function (val) {
+                vm.lazyloaderdashboard = false;
                 var searchRequest = {
                     Client: {
-                        Url: "https://msmatter.sharepoint.com/sites/catalog"
+                        Url: configs.global.repositoryUrl
                     },
                     SearchObject: {
                         PageNumber: 1,
                         ItemsPerPage: 10,
-                        SearchTerm: '',
+                        SearchTerm: val,
+                        Filters: {},
+                        Sort: {
+                            ByProperty: "LastModifiedTime",
+                            Direction: 1
+                        }
+                    }
+                };
+                return matterDashBoardResource.get(searchRequest).$promise;
+                vm.lazyloaderdashboard = true;
+            }
+
+            //This search function will be used for binding search results to the grid
+            vm.search = function () {
+                vm.lazyloaderdashboard = false;
+                //"(MCMatterName:\"testerv123\" AND MCMatterID:\"123Test\")",
+                //test1234(test1d)
+                var searchToText = '';
+                var finalSearchText = '';
+                if (vm.searchText != "") {
+                    searchToText = vm.searchText.replace("(", ",")
+                    searchToText = searchToText.replace(")", "")
+                    var firstText = searchToText.split(',')[0]
+                    var secondText = searchToText.split(',')[1]
+                    var finalSearchText = '(MCMatterName:"' + firstText.trim() + '" AND MCMatterID:"' + secondText.trim() + '")'
+                }
+
+                var searchRequest = {
+                    Client: {
+                        Url: configs.global.repositoryUrl
+                    },
+                    SearchObject: {
+                        PageNumber: 1,
+                        ItemsPerPage: 10,
+                        SearchTerm: finalSearchText,
                         Filters: {},
                         Sort: {
                             ByProperty: "LastModifiedTime",
@@ -223,7 +288,7 @@
                     }
                 };
                 var pinnedMattersRequest = {
-                    Url: "https://msmatter.sharepoint.com/sites/catalog"//ToDo: Read from config.js
+                    Url: configs.global.repositoryUrl
                 }
                 var tempMatters = [];
                 get(searchRequest, function (response) {
@@ -239,33 +304,34 @@
                                         if (res.ismatterdone == undefined && !res.ismatterdone) {
                                             res.ismatterdone = true;
                                             res.pinType = "unpin"
-                                        }                                        
-                                    }                                    
+                                        }
+                                    }
                                 });
                             });
                             vm.matterGridOptions.data = response;
-                            vm.allMatterCount = response.length
+                            vm.allMatterCount = response.length;
+                            vm.lazyloaderdashboard = true;
                         }
                         else {
-                            $scope.lazyloader = true;
+                            vm.lazyloaderdashboard = true;
                             vm.matterGridOptions.data = response;
                             vm.allMatterCount = response.length
                             vm.pinMatterCount = 0;
                         }
-                    });                    
-                    
+                    });
+
                 });
             }
 
-            
+
             //This function will pin or unpin the matter based on the image button clicked
             vm.pinorunpin = function (e, currentRowData) {
-                
-                if (e.currentTarget.src.toLowerCase().indexOf("images/pin-666.png")>0 ) {
+                vm.lazyloaderdashboard = false;
+                if (e.currentTarget.src.toLowerCase().indexOf("images/pin-666.png") > 0) {
                     e.currentTarget.src = "../Images/loadingGreen.gif";
                     var pinRequest = {
                         Client: {
-                            Url: "https://msmatter.sharepoint.com/sites/catalog"//ToDo: Need to read from config.js file
+                            Url: configs.global.repositoryUrl
                         },
                         matterData: {
                             matterName: currentRowData.matterName,
@@ -283,7 +349,7 @@
                             matterResponsibleAttorney: currentRowData.matterResponsibleAttorney,
                             matterModifiedDate: currentRowData.matterModifiedDate,
                             matterGuid: currentRowData.matterGuid,
-                            pinType:'unpin'
+                            pinType: 'unpin'
                         }
                     }
                     pinMatter(pinRequest, function (response) {
@@ -291,13 +357,14 @@
                             e.currentTarget.src = "../images/unpin-666.png";
                             vm.pinMatterCount = parseInt(vm.pinMatterCount, 10) + 1;
                         }
+                        vm.lazyloaderdashboard = true;
                     });
                 }
                 else if (e.currentTarget.src.toLowerCase().indexOf("images/unpin-666.png") > 0) {
                     e.currentTarget.src = "../Images/loadingGreen.gif";
                     var unpinRequest = {
                         Client: {
-                            Url: "https://msmatter.sharepoint.com/sites/catalog"//ToDo: Need to read from config.js file
+                            Url: configs.global.repositoryUrl
                         },
                         matterData: {
                             matterName: currentRowData.matterUrl,
@@ -309,18 +376,19 @@
                             vm.pinMatterCount = parseInt(vm.pinMatterCount, 10) - 1;
                             vm.matterGridOptions.data.splice(vm.matterGridOptions.data.indexOf(currentRowData), 1)
                         }
+                        vm.lazyloaderdashboard = true;
                     });
                 }
-                
+
             }
 
-           
+
 
             //#endregion
 
             //#region This event is going to file when the user clicks onm "Select All" and "UnSelect All" links
-            vm.checkAll = function (checkAll, type,$event) {
-            $event.stopPropagation();
+            vm.checkAll = function (checkAll, type, $event) {
+                $event.stopPropagation();
                 if (type === 'client') {
                     angular.forEach(vm.clients, function (client) {
                         client.Selected = checkAll;
@@ -560,11 +628,11 @@
             vm.getFolderHierarchy = function () {
                 var matterData = {
                     MatterName: vm.selectedRow.matterName,
-                    MatterUrl: "https://msmatter.sharepoint.com/sites/microsoft"
+                    MatterUrl: vm.selectedRow.matterClientUrl,
                 };
                 getFolderHierarchy(matterData, function (response) {
                     vm.foldersList = response.foldersList;
-                    jQuery('#UploadMatterModal').modal("show");                    
+                    jQuery('#UploadMatterModal').modal("show");
                 });
             }
 
@@ -576,7 +644,7 @@
                 fd.append('targetDropUrl', targetDrop.url);
                 fd.append('folderUrl', targetDrop.url)
                 fd.append('documentLibraryName', vm.selectedRow.matterName)
-                fd.append('clientUrl', 'https://msmatter.sharepoint.com/sites/microsoft');
+                fd.append('clientUrl', vm.selectedRow.matterClientUrl);
                 angular.forEach(vm.files, function (file) {
                     fd.append('file', file);
                 })
@@ -600,9 +668,80 @@
             $timeout(vm.search(), 500);
 
             //#region For Sorting by Alphebatical or Created date
+            var SortRequest = {
+                Client: {
+                    Id: "123456",
+                    Name: "Microsoft",
+                    Url: "https://msmatter.sharepoint.com/sites/catalog"
+                },
+                SearchObject: {
+                    PageNumber: 1,
+                    ItemsPerPage: 10,
+                    SearchTerm: "",
+                    Filters: {
+                        AOLList: "",
+                        ClientsList: [],
+                        FilterByMe: 1,
+                        FromDate: "",
+                        PGList: "",
+                        ToDate: ""
+                    },
+                    Sort:
+                            {
+                                ByProperty: '',
+                                Direction: 0
+                            }
+                }
+            }
 
-            vm.sortyby = function (data) {
+            vm.FilterByType = function () {
+                get(SortRequest, function (response) {
+                    vm.lazyloader = true;
+                    if (response.errorCode == "404") {
+                        vm.divuigrid = false;
+                        vm.nodata = true;
+                        $scope.errorMessage = response.message;
+                    } else {
+                        vm.divuigrid = true;
+                        vm.nodata = false;
+                        vm.matterGridOptions.data = response;
+                        if (!$scope.$$phase) {
+                            $scope.$apply();
+                        }
+                    }
+                });
+            }
+
+
+            vm.sortyby = function (sortexp, data) {
                 vm.sortbytext = data;
+                if (sortexp == 'AlphabeticalUp') {
+                    vm.lazyloader = false;
+                    SortRequest.SearchObject.Sort.ByProperty = "MCMatterName";
+                    SortRequest.SearchObject.Sort.Direction = 0;
+                    vm.FilterByType();
+                } else if (sortexp == 'AlphabeticalDown') {
+                    vm.lazyloader = false;
+                    SortRequest.SearchObject.Sort.ByProperty = "MCMatterName";
+                    SortRequest.SearchObject.Sort.Direction = 1;
+                    vm.FilterByType();
+                } else if (sortexp == 'CreateddateUp') {
+                    vm.lazyloader = false;
+                    SortRequest.SearchObject.Sort.ByProperty = "MCOpenDate";
+                    SortRequest.SearchObject.Sort.Direction = 0;
+                    vm.FilterByType();
+                }
+                else if (sortexp == 'CreateddateDown') {
+                    vm.lazyloader = false;
+                    SortRequest.SearchObject.Sort.ByProperty = "MCOpenDate";
+                    SortRequest.SearchObject.Sort.Direction = 1;
+                    vm.FilterByType();
+                } else {
+                    vm.lazyloader = false;
+                    SortRequest.SearchObject.Sort.ByProperty = "LastModifiedTime";
+                    SortRequest.SearchObject.Sort.Direction = 1;
+                    vm.FilterByType();
+                }
             }
 
             //#endregion

@@ -18,6 +18,7 @@
             vm.sortbydrop = false;
             vm.sortbydropvisible = false;
             vm.sortbytext = 'Relevant';
+            vm.documentsCheckedCount = 0;
             //#endregion
 
             //#region Variable to show document count
@@ -63,6 +64,8 @@
 
             //#region Document Grid Functionality
             vm.documentGridOptions = {
+                enableHorizontalScrollbar: 0,
+                enableVerticalScrollbar: 0,
                 paginationPageSize: gridOptions.paginationPageSize,
                 enablePagination: false,
                 enableGridMenu: gridOptions.enableGridMenu,
@@ -78,7 +81,7 @@
                     { field: 'documentClientId', displayName: 'Client', width: '15%', cellTemplate: '<div class="ui-grid-cell-contents" >{{row.entity.documentClientId}}</div>', enableColumnMenu: false },
                     { field: 'documentOwner', displayName: 'Author', width: '14%', enableColumnMenu: false },
                     { field: 'documentModifiedDate', displayName: 'Modified date', width: '20%', enableColumnMenu: false },
-                    { field: 'documentId', displayName: 'Document ID', width: '10%', enableColumnMenu: false },
+                    { field: 'documentID', displayName: 'Document ID', width: '10%', cellTemplate: '<div class="ui-grid-cell-contents" >{{row.entity.documentID==""?"NA":row.entity.documentID}}</div>', enableColumnMenu: false },
                     { field: 'documentVersion', displayName: 'Version', width: '6%', enableColumnMenu: false },
                     { field: 'pin', width: '5%', cellTemplate: '<div class="ui-grid-cell-contents pad0"><img src="../Images/pin-666.png" ng-click="grid.appScope.vm.pinorunpin($event, row.entity)"/></div>', enableColumnMenu: false }
                 ],
@@ -106,20 +109,51 @@
 
             //#endregion
 
+            vm.showMailCartModal = function () {
+                if (vm.documentsCheckedCount > 0) {
+                    jQuery('#UploadMatterModal').modal("show");
+                }
+            }
+
+            //#region Cart functionality
+            vm.cartelements = [];
 
             //function to toggle check all 
-            vm.toggleChecker = function (checked) {
-                var rows = vm.gridApi.core.getVisibleRows(vm.gridApi.grid),
-                    allChecked = true;
-
-                for (var r = 0; r < rows.length; r++) {
-                    if (rows[r].entity.checker !== true) {
-                        allChecked = false;
-                        break;
-                    }
+            vm.toggleChecker = function (checked, rowinfo) {
+                if (checked) {
+                    vm.documentsCheckedCount = parseInt(vm.documentsCheckedCount, 10) + 1;
+                    vm.cartelements.push(rowinfo);
                 }
-                $("#chkAllDocCheckBox").prop('checked', allChecked);
+                else {
+                    vm.documentsCheckedCount = parseInt(vm.documentsCheckedCount, 10) - 1
+                    var rows = vm.gridApi.core.getVisibleRows(vm.gridApi.grid),
+                        allChecked = true;
+                    for (var r = 0; r < rows.length; r++) {
+                        if (rows[r].entity.checker !== true) {
+                            allChecked = false;
+                            break;
+                        }
+                    }
+                    $("#chkAllDocCheckBox").prop('checked', allChecked);
+                }
             };
+
+            //Removing elements from cart
+            vm.removeAttachment = function (obj) {
+                angular.forEach(vm.cartelements, function (element) {
+                    if (element.documentID == obj.documentID) {
+                        if (jQuery("#doc" + obj.documentID).is(":checked")) {
+                            jQuery("#doc" + obj.documentID).prop("checked", false);
+                        }
+                        vm.documentsCheckedCount = parseInt(vm.documentsCheckedCount, 10) - 1;
+                        vm.cartelements.pop(element);
+                        if (vm.cartelements.length == 0) {
+                            vm.documentsCheckedCount = 0;
+                        }
+                    }
+                });
+
+            }
 
             //function to check all checkboxes inside grid
             vm.toggleCheckerAll = function (checked) {
@@ -338,9 +372,9 @@
 
             }
 
-             //#region This event is going to file when the user clicks onm "Select All" and "UnSelect All" links
-            vm.checkAll = function (checkAll, type,$event) {
-            $event.stopPropagation();
+            //#region This event is going to file when the user clicks onm "Select All" and "UnSelect All" links
+            vm.checkAll = function (checkAll, type, $event) {
+                $event.stopPropagation();
                 if (type === 'client') {
                     angular.forEach(vm.clients, function (client) {
                         client.Selected = checkAll;
@@ -438,10 +472,108 @@
             //#endregion
 
             //#region For Sorting by Alphebatical or Created date
+            var SortRequest = {
+                Client: {
+                    Id: "123456",
+                    Name: "Microsoft",
+                    Url: "https://msmatter.sharepoint.com/sites/catalog"
+                },
+                SearchObject: {
+                    PageNumber: 1,
+                    ItemsPerPage: 10,
+                    SearchTerm: "",
+                    Filters: {
+                        ClientName: "",
+                        ClientsList: [],
+                        PGList: [],
+                        AOLList: [],
+                        DateFilters: {
+                            CreatedFromDate: "",
+                            CreatedToDate: "",
+                            ModifiedFromDate: "",
+                            ModifiedToDate: "",
+                            OpenDateFrom: "",
+                            OpenDateTo: ""
+                        },
+                        DocumentAuthor: "",
+                        DocumentCheckoutUsers: "",
+                        FilterByMe: 0,
+                        FromDate: "",
+                        Name: "",
+                        ResponsibleAttorneys: "",
+                        SubareaOfLaw: "",
+                        ToDate: ""
+                    },
+                    Sort:
+                            {
+                                ByProperty: '',
+                                Direction: 0
+                            }
+                }
+            }
 
-            vm.sortyby = function (data) {
+            vm.FilterByType = function () {
+                get(SortRequest, function (response) {
+                    vm.lazyloader = true;
+                    if (response.errorCode == "404") {
+                        vm.divuigrid = false;
+                        vm.nodata = true;
+                        vm.errorMessage = response.message;
+                    } else {
+                        vm.divuigrid = true;
+                        vm.nodata = false;
+                        vm.documentGridOptions.data = response;
+                        if (!$scope.$$phase) {
+                            $scope.$apply();
+                        }
+                    }
+                });
+            }
+
+
+            vm.sortyby = function (sortexp, data) {
                 vm.sortbytext = data;
                 vm.sortbydrop = false;
+                if (sortexp == 'AlphabeticalUp') {
+                    vm.lazyloader = false;
+                    SortRequest.SearchObject.Sort.ByProperty = "FileName";
+                    SortRequest.SearchObject.Sort.Direction = 0;
+                    vm.FilterByType();
+                } else if (sortexp == 'AlphabeticalDown') {
+                    vm.lazyloader = false;
+                    SortRequest.SearchObject.Sort.ByProperty = "FileName";
+                    SortRequest.SearchObject.Sort.Direction = 1;
+                    vm.FilterByType();
+                } else if (sortexp == 'CreateddateUp') {
+                    vm.lazyloader = false;
+                    SortRequest.SearchObject.Sort.ByProperty = "Created";
+                    SortRequest.SearchObject.Sort.Direction = 0;
+                    vm.FilterByType();
+                }
+                else if (sortexp == 'CreateddateDown') {
+                    vm.lazyloader = false;
+                    SortRequest.SearchObject.Sort.ByProperty = "Created";
+                    SortRequest.SearchObject.Sort.Direction = 1;
+                    vm.FilterByType();
+                }
+                else if (sortexp == 'ModifieddateUp') {
+                    vm.lazyloader = false;
+                    SortRequest.SearchObject.Sort.ByProperty = "MCModifiedDate";
+                    SortRequest.SearchObject.Sort.Direction = 0;
+                    vm.FilterByType();
+                }
+                else if (sortexp == 'ModifieddateDown') {
+                    vm.lazyloader = false;
+                    SortRequest.SearchObject.Sort.ByProperty = "MCModifiedDate";
+                    SortRequest.SearchObject.Sort.Direction = 1;
+                    vm.FilterByType();
+                }
+                else {
+                    vm.lazyloader = false;
+                    SortRequest.SearchObject.Sort.ByProperty = "LastModifiedTime";
+                    SortRequest.SearchObject.Sort.Direction = 1;
+                    vm.FilterByType();
+                }
             }
 
             //#endregion
@@ -460,6 +592,22 @@
         }
     });
 
+    app.directive('infopopover', function () {
+        return {
+            restrict: 'AE',
+            link: function (scope, element, attrs) {
+                var content = "<div class='cartelementpopup' style='width:250px'>\
+                                   <div class='checkOutMetadata marginTop10'>When sending to your OneDrive the DMS version will be checked out to you until you check it back in.</div>\
+                               </div>";
+                $(element).popover({
+                    html: true,
+                    trigger: 'click',
+                    delay: 500,
+                    content: content,
+                });
+            }
+        }
+    });
 }
 
 

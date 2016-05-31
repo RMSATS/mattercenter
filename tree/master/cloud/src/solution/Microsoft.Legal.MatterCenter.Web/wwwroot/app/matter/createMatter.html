@@ -263,7 +263,7 @@
             <div class="sectionContent">
                
                     <div class="row customDivCreate">
-                        <div class="col-sm-12">
+                        <div class="col-sm-12 createCol">
                             You have entered all of the necessary information to create this matter.
                             After you click Create and Notify, the matter will be created and all team members will receive an email containing a link to this matter’s location.
                         </div>
@@ -328,7 +328,7 @@
             <div title="Select a Practice Group" class="popUpHeaderTitle popUpFloatLeft">Select a Practice Group</div>
             <div class="popUpPracticeGroup clear">
                 <div class="popUpPGDiv">
-                    <select class="medium clear " ng-model='cm.selectedPracticeGroup' ng-change='cm.getSelectedPracticeGroupValue()' ng-options='practiceGroup.termName for practiceGroup in cm.pracitceGroupList'>
+                    <select class="medium clear custPracticeGroup" ng-model='cm.selectedPracticeGroup' ng-change='cm.getSelectedPracticeGroupValue()' ng-options='practiceGroup.termName for practiceGroup in cm.pracitceGroupList'>
                         <option value="" label="- Select a practice group -"></option>
                     </select>
                 </div>
