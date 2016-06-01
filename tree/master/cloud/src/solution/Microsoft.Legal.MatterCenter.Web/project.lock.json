@@ -1189,6 +1189,19 @@
           "lib/netstandard1.0/Microsoft.Extensions.FileProviders.Composite.dll": {}
         }
       },
+      "Microsoft.Extensions.FileProviders.Embedded/1.0.0-rc2-final": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.FileProviders.Abstractions": "1.0.0-rc2-final",
+          "System.Runtime.Extensions": "4.1.0-rc2-24027"
+        },
+        "compile": {
+          "lib/netstandard1.0/Microsoft.Extensions.FileProviders.Embedded.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/Microsoft.Extensions.FileProviders.Embedded.dll": {}
+        }
+      },
       "Microsoft.Extensions.FileProviders.Physical/1.0.0-rc2-final": {
         "type": "package",
         "dependencies": {
@@ -1564,11 +1577,39 @@
           "lib/net45/StackExchange.Redis.dll": {}
         }
       },
-      "Swashbuckle.SwaggerGen/6.0.0-rc1-final": {
-        "type": "package"
+      "Swashbuckle.SwaggerGen/6.0.0-beta9": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Mvc": "1.0.0-rc2-final",
+          "Microsoft.AspNetCore.Mvc.Core": "1.0.0-rc2-final"
+        },
+        "frameworkAssemblies": [
+          "System.Xml"
+        ],
+        "compile": {
+          "lib/net451/Swashbuckle.SwaggerGen.dll": {}
+        },
+        "runtime": {
+          "lib/net451/Swashbuckle.SwaggerGen.dll": {}
+        }
       },
-      "Swashbuckle.SwaggerUi/6.0.0-rc1-final": {
-        "type": "package"
+      "Swashbuckle.SwaggerUi/6.0.0-beta9": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Mvc": "1.0.0-rc2-final",
+          "Microsoft.AspNetCore.Mvc.Core": "1.0.0-rc2-final",
+          "Microsoft.AspNetCore.StaticFiles": "1.0.0-rc2-final",
+          "Microsoft.Extensions.FileProviders.Embedded": "1.0.0-rc2-final"
+        },
+        "frameworkAssemblies": [
+          "System.Xml"
+        ],
+        "compile": {
+          "lib/net451/Swashbuckle.SwaggerUi.dll": {}
+        },
+        "runtime": {
+          "lib/net451/Swashbuckle.SwaggerUi.dll": {}
+        }
       },
       "System.Buffers/4.0.0-rc2-24027": {
         "type": "package",
@@ -3067,6 +3108,16 @@
         "lib/netstandard1.0/Microsoft.Extensions.FileProviders.Composite.xml"
       ]
     },
+    "Microsoft.Extensions.FileProviders.Embedded/1.0.0-rc2-final": {
+      "sha512": "ERbc6toGS9OSc8Pr8kJ6AYxIDBaFt2I+s3tj87d/Pi6owQhD9hvCb9nAxOkxpLwl8OdsoOekdNUBZNYjhnBsXQ==",
+      "type": "package",
+      "files": [
+        "Microsoft.Extensions.FileProviders.Embedded.1.0.0-rc2-final.nupkg.sha512",
+        "Microsoft.Extensions.FileProviders.Embedded.nuspec",
+        "lib/netstandard1.0/Microsoft.Extensions.FileProviders.Embedded.dll",
+        "lib/netstandard1.0/Microsoft.Extensions.FileProviders.Embedded.xml"
+      ]
+    },
     "Microsoft.Extensions.FileProviders.Physical/1.0.0-rc2-final": {
       "sha512": "mGinPq86ouElAEY7K9Yww3bIJFD3k+UESFveOKCtXVbn9Z25rJOLoD7T0WRkJxzPZ+0MTipWpMh7jUJdsMV5Nw==",
       "type": "package",
@@ -3486,30 +3537,24 @@
         "lib/netstandard1.5/StackExchange.Redis.xml"
       ]
     },
-    "Swashbuckle.SwaggerGen/6.0.0-rc1-final": {
-      "sha512": "YfkBm+xYruoKJzVpaDFZQzwPF59CyrYe0d4bb3kKGeJ+vi20xYfzzk9j2PXZ/BiP8xJ59pkVrRUZOyeceP3eNQ==",
+    "Swashbuckle.SwaggerGen/6.0.0-beta9": {
+      "sha512": "rMpc9l9QGk70l8OiAKV5vWU4xLWyZmHnWbVZFVwolbz3CV8LMRYFZbqEA2W3QvP9i0lf0InpFYewFnlGtE7dng==",
       "type": "package",
       "files": [
-        "Swashbuckle.SwaggerGen.6.0.0-rc1-final.nupkg",
-        "Swashbuckle.SwaggerGen.6.0.0-rc1-final.nupkg.sha512",
+        "Swashbuckle.SwaggerGen.6.0.0-beta9.nupkg.sha512",
         "Swashbuckle.SwaggerGen.nuspec",
-        "lib/dnx451/Swashbuckle.SwaggerGen.dll",
-        "lib/dnx451/Swashbuckle.SwaggerGen.xml",
-        "lib/dnxcore50/Swashbuckle.SwaggerGen.dll",
-        "lib/dnxcore50/Swashbuckle.SwaggerGen.xml"
+        "lib/net451/Swashbuckle.SwaggerGen.dll",
+        "lib/netstandard1.5/Swashbuckle.SwaggerGen.dll"
       ]
     },
-    "Swashbuckle.SwaggerUi/6.0.0-rc1-final": {
-      "sha512": "h/yK4Pq2SJNPwrWEVvP6UHnZBfi0MnesCa1ZgV5HKI/PRp1dq/BXPrAZi2VB1oz1PU+F0zsaVfZf31BTxg6NzA==",
+    "Swashbuckle.SwaggerUi/6.0.0-beta9": {
+      "sha512": "kgooI19J0O3fBMbKx3i18DPdq/WSXBgImtcIMrsDZaUvm5PXpsquHdF3sQbwneeIW/SJ18zG1x8m7/AGC88XlA==",
       "type": "package",
       "files": [
-        "Swashbuckle.SwaggerUi.6.0.0-rc1-final.nupkg",
-        "Swashbuckle.SwaggerUi.6.0.0-rc1-final.nupkg.sha512",
+        "Swashbuckle.SwaggerUi.6.0.0-beta9.nupkg.sha512",
         "Swashbuckle.SwaggerUi.nuspec",
-        "lib/dnx451/Swashbuckle.SwaggerUi.dll",
-        "lib/dnx451/Swashbuckle.SwaggerUi.xml",
-        "lib/dnxcore50/Swashbuckle.SwaggerUi.dll",
-        "lib/dnxcore50/Swashbuckle.SwaggerUi.xml"
+        "lib/net451/Swashbuckle.SwaggerUi.dll",
+        "lib/netstandard1.5/Swashbuckle.SwaggerUi.dll"
       ]
     },
     "System.Buffers/4.0.0-rc2-24027": {
@@ -5312,8 +5357,8 @@
       "Microsoft.Legal.MatterCenter.Repository >= 1.0.0-*",
       "Microsoft.Legal.MatterCenter.Utility >= 1.0.0-*",
       "Microsoft.VisualStudio.Web.BrowserLink.Loader >= 14.0.0-rc2-final",
-      "Swashbuckle.SwaggerGen >= 6.0.0-rc1-final",
-      "Swashbuckle.SwaggerUi >= 6.0.0-rc1-final"
+      "Swashbuckle.SwaggerGen >= 6.0.0-beta9",
+      "Swashbuckle.SwaggerUi >= 6.0.0-beta9"
     ],
     ".NETFramework,Version=v4.5.2": []
   },

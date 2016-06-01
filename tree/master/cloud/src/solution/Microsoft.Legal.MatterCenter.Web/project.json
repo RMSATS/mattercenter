@@ -26,8 +26,8 @@
     "Microsoft.Legal.MatterCenter.Repository": "1.0.0-*",
     "Microsoft.Legal.MatterCenter.Utility": "1.0.0-*",
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0-rc2-final",
-    "Swashbuckle.SwaggerGen": "6.0.0-rc1-final",
-    "Swashbuckle.SwaggerUi": "6.0.0-rc1-final"
+    "Swashbuckle.SwaggerGen": "6.0.0-beta9",
+    "Swashbuckle.SwaggerUi": "6.0.0-beta9"
   },
 
   "commands": {

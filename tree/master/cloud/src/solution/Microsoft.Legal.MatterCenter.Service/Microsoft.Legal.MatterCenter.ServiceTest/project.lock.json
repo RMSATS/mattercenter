@@ -1189,6 +1189,19 @@
           "lib/netstandard1.0/Microsoft.Extensions.FileProviders.Composite.dll": {}
         }
       },
+      "Microsoft.Extensions.FileProviders.Embedded/1.0.0-rc2-final": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.FileProviders.Abstractions": "1.0.0-rc2-final",
+          "System.Runtime.Extensions": "4.1.0-rc2-24027"
+        },
+        "compile": {
+          "lib/netstandard1.0/Microsoft.Extensions.FileProviders.Embedded.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/Microsoft.Extensions.FileProviders.Embedded.dll": {}
+        }
+      },
       "Microsoft.Extensions.FileProviders.Physical/1.0.0-rc2-final": {
         "type": "package",
         "dependencies": {
@@ -1564,11 +1577,39 @@
           "lib/net45/StackExchange.Redis.dll": {}
         }
       },
-      "Swashbuckle.SwaggerGen/6.0.0-rc1-final": {
-        "type": "package"
+      "Swashbuckle.SwaggerGen/6.0.0-beta9": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Mvc": "1.0.0-rc2-final",
+          "Microsoft.AspNetCore.Mvc.Core": "1.0.0-rc2-final"
+        },
+        "frameworkAssemblies": [
+          "System.Xml"
+        ],
+        "compile": {
+          "lib/net451/Swashbuckle.SwaggerGen.dll": {}
+        },
+        "runtime": {
+          "lib/net451/Swashbuckle.SwaggerGen.dll": {}
+        }
       },
-      "Swashbuckle.SwaggerUi/6.0.0-rc1-final": {
-        "type": "package"
+      "Swashbuckle.SwaggerUi/6.0.0-beta9": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNetCore.Mvc": "1.0.0-rc2-final",
+          "Microsoft.AspNetCore.Mvc.Core": "1.0.0-rc2-final",
+          "Microsoft.AspNetCore.StaticFiles": "1.0.0-rc2-final",
+          "Microsoft.Extensions.FileProviders.Embedded": "1.0.0-rc2-final"
+        },
+        "frameworkAssemblies": [
+          "System.Xml"
+        ],
+        "compile": {
+          "lib/net451/Swashbuckle.SwaggerUi.dll": {}
+        },
+        "runtime": {
+          "lib/net451/Swashbuckle.SwaggerUi.dll": {}
+        }
       },
       "System.Buffers/4.0.0-rc2-24027": {
         "type": "package",
@@ -1950,8 +1991,61 @@
           "lib/net40/Microsoft.WindowsAzure.Storage.dll": {}
         }
       },
-      "xunit.runner.dnx/2.1.0-rc1-build204": {
-        "type": "package"
+      "xunit/2.1.0": {
+        "type": "package",
+        "dependencies": {
+          "xunit.assert": "[2.1.0]",
+          "xunit.core": "[2.1.0]"
+        }
+      },
+      "xunit.abstractions/2.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net35/xunit.abstractions.dll": {}
+        },
+        "runtime": {
+          "lib/net35/xunit.abstractions.dll": {}
+        }
+      },
+      "xunit.assert/2.1.0": {
+        "type": "package",
+        "compile": {
+          "lib/dotnet/xunit.assert.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet/xunit.assert.dll": {}
+        }
+      },
+      "xunit.core/2.1.0": {
+        "type": "package",
+        "dependencies": {
+          "xunit.extensibility.core": "[2.1.0]",
+          "xunit.extensibility.execution": "[2.1.0]"
+        }
+      },
+      "xunit.extensibility.core/2.1.0": {
+        "type": "package",
+        "dependencies": {
+          "xunit.abstractions": "[2.0.0]"
+        },
+        "compile": {
+          "lib/dotnet/xunit.core.dll": {}
+        },
+        "runtime": {
+          "lib/dotnet/xunit.core.dll": {}
+        }
+      },
+      "xunit.extensibility.execution/2.1.0": {
+        "type": "package",
+        "dependencies": {
+          "xunit.extensibility.core": "[2.1.0]"
+        },
+        "compile": {
+          "lib/net45/xunit.execution.desktop.dll": {}
+        },
+        "runtime": {
+          "lib/net45/xunit.execution.desktop.dll": {}
+        }
       },
       "xunit.runner.visualstudio/2.1.0": {
         "type": "package"
@@ -2039,8 +2133,8 @@
           "Microsoft.Legal.MatterCenter.Repository": "1.0.0",
           "Microsoft.Legal.MatterCenter.Utility": "1.0.0",
           "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0-rc2-final",
-          "Swashbuckle.SwaggerGen": "6.0.0-rc1-final",
-          "Swashbuckle.SwaggerUi": "6.0.0-rc1-final"
+          "Swashbuckle.SwaggerGen": "6.0.0-beta9",
+          "Swashbuckle.SwaggerUi": "6.0.0-beta9"
         },
         "compile": {
           "net452/Microsoft.Legal.MatterCenter.Web.dll": {}
@@ -3105,6 +3199,16 @@
         "lib/netstandard1.0/Microsoft.Extensions.FileProviders.Composite.xml"
       ]
     },
+    "Microsoft.Extensions.FileProviders.Embedded/1.0.0-rc2-final": {
+      "sha512": "ERbc6toGS9OSc8Pr8kJ6AYxIDBaFt2I+s3tj87d/Pi6owQhD9hvCb9nAxOkxpLwl8OdsoOekdNUBZNYjhnBsXQ==",
+      "type": "package",
+      "files": [
+        "Microsoft.Extensions.FileProviders.Embedded.1.0.0-rc2-final.nupkg.sha512",
+        "Microsoft.Extensions.FileProviders.Embedded.nuspec",
+        "lib/netstandard1.0/Microsoft.Extensions.FileProviders.Embedded.dll",
+        "lib/netstandard1.0/Microsoft.Extensions.FileProviders.Embedded.xml"
+      ]
+    },
     "Microsoft.Extensions.FileProviders.Physical/1.0.0-rc2-final": {
       "sha512": "mGinPq86ouElAEY7K9Yww3bIJFD3k+UESFveOKCtXVbn9Z25rJOLoD7T0WRkJxzPZ+0MTipWpMh7jUJdsMV5Nw==",
       "type": "package",
@@ -3524,30 +3628,24 @@
         "lib/netstandard1.5/StackExchange.Redis.xml"
       ]
     },
-    "Swashbuckle.SwaggerGen/6.0.0-rc1-final": {
-      "sha512": "YfkBm+xYruoKJzVpaDFZQzwPF59CyrYe0d4bb3kKGeJ+vi20xYfzzk9j2PXZ/BiP8xJ59pkVrRUZOyeceP3eNQ==",
+    "Swashbuckle.SwaggerGen/6.0.0-beta9": {
+      "sha512": "rMpc9l9QGk70l8OiAKV5vWU4xLWyZmHnWbVZFVwolbz3CV8LMRYFZbqEA2W3QvP9i0lf0InpFYewFnlGtE7dng==",
       "type": "package",
       "files": [
-        "Swashbuckle.SwaggerGen.6.0.0-rc1-final.nupkg",
-        "Swashbuckle.SwaggerGen.6.0.0-rc1-final.nupkg.sha512",
+        "Swashbuckle.SwaggerGen.6.0.0-beta9.nupkg.sha512",
         "Swashbuckle.SwaggerGen.nuspec",
-        "lib/dnx451/Swashbuckle.SwaggerGen.dll",
-        "lib/dnx451/Swashbuckle.SwaggerGen.xml",
-        "lib/dnxcore50/Swashbuckle.SwaggerGen.dll",
-        "lib/dnxcore50/Swashbuckle.SwaggerGen.xml"
+        "lib/net451/Swashbuckle.SwaggerGen.dll",
+        "lib/netstandard1.5/Swashbuckle.SwaggerGen.dll"
       ]
     },
-    "Swashbuckle.SwaggerUi/6.0.0-rc1-final": {
-      "sha512": "h/yK4Pq2SJNPwrWEVvP6UHnZBfi0MnesCa1ZgV5HKI/PRp1dq/BXPrAZi2VB1oz1PU+F0zsaVfZf31BTxg6NzA==",
+    "Swashbuckle.SwaggerUi/6.0.0-beta9": {
+      "sha512": "kgooI19J0O3fBMbKx3i18DPdq/WSXBgImtcIMrsDZaUvm5PXpsquHdF3sQbwneeIW/SJ18zG1x8m7/AGC88XlA==",
       "type": "package",
       "files": [
-        "Swashbuckle.SwaggerUi.6.0.0-rc1-final.nupkg",
-        "Swashbuckle.SwaggerUi.6.0.0-rc1-final.nupkg.sha512",
+        "Swashbuckle.SwaggerUi.6.0.0-beta9.nupkg.sha512",
         "Swashbuckle.SwaggerUi.nuspec",
-        "lib/dnx451/Swashbuckle.SwaggerUi.dll",
-        "lib/dnx451/Swashbuckle.SwaggerUi.xml",
-        "lib/dnxcore50/Swashbuckle.SwaggerUi.dll",
-        "lib/dnxcore50/Swashbuckle.SwaggerUi.xml"
+        "lib/net451/Swashbuckle.SwaggerUi.dll",
+        "lib/netstandard1.5/Swashbuckle.SwaggerUi.dll"
       ]
     },
     "System.Buffers/4.0.0-rc2-24027": {
@@ -5310,17 +5408,115 @@
         "lib/wpa/Microsoft.WindowsAzure.Storage.pdb"
       ]
     },
-    "xunit.runner.dnx/2.1.0-rc1-build204": {
-      "sha512": "GUtWIQN3h7QGJdp5RTgvbPVjdWC7tXIRZhzpW8txNDC9nbMph4/TWbVEZKCGUOsLvE5BZg3icRGb6JR3ZwBADA==",
+    "xunit/2.1.0": {
+      "sha512": "u/7VQSOSXa7kSG4iK6Lcn7RqKZQ3hk7cnyMNVMpXHSP0RI5VQEtc44hvkG3LyWOVsx1dhUDD3rPAHAxyOUDQJw==",
       "type": "package",
       "files": [
-        "lib/dnx451/xunit.runner.dnx.dll",
-        "lib/dnx451/xunit.runner.dnx.xml",
-        "lib/dnxcore50/xunit.runner.dnx.dll",
-        "lib/dnxcore50/xunit.runner.dnx.xml",
-        "xunit.runner.dnx.2.1.0-rc1-build204.nupkg",
-        "xunit.runner.dnx.2.1.0-rc1-build204.nupkg.sha512",
-        "xunit.runner.dnx.nuspec"
+        "xunit.2.1.0.nupkg.sha512",
+        "xunit.nuspec"
+      ]
+    },
+    "xunit.abstractions/2.0.0": {
+      "sha512": "NAdxKQRzuLnCZ0g++x6i87/8rMBpQoRiRlRNLAqfODm2zJPbteHRoSER3DXfxnqrHXyBJT8rFaZ8uveBeQyaMA==",
+      "type": "package",
+      "files": [
+        "lib/net35/xunit.abstractions.dll",
+        "lib/net35/xunit.abstractions.xml",
+        "lib/portable-net45+win+wpa81+wp80+monotouch+monoandroid+Xamarin.iOS/xunit.abstractions.dll",
+        "lib/portable-net45+win+wpa81+wp80+monotouch+monoandroid+Xamarin.iOS/xunit.abstractions.xml",
+        "xunit.abstractions.2.0.0.nupkg.sha512",
+        "xunit.abstractions.nuspec"
+      ]
+    },
+    "xunit.assert/2.1.0": {
+      "sha512": "Hhhw+YaTe+BGhbr57dxVE+6VJk8BfThqFFii1XIsSZ4qx+SSCixprJC10JkiLRVSTfWyT8W/4nAf6NQgIrmBxA==",
+      "type": "package",
+      "files": [
+        "lib/dotnet/xunit.assert.dll",
+        "lib/dotnet/xunit.assert.pdb",
+        "lib/dotnet/xunit.assert.xml",
+        "lib/portable-net45+win8+wp8+wpa81/xunit.assert.dll",
+        "lib/portable-net45+win8+wp8+wpa81/xunit.assert.pdb",
+        "lib/portable-net45+win8+wp8+wpa81/xunit.assert.xml",
+        "xunit.assert.2.1.0.nupkg.sha512",
+        "xunit.assert.nuspec"
+      ]
+    },
+    "xunit.core/2.1.0": {
+      "sha512": "jlbYdPbnkPIRwJllcT/tQZCNsSElVDEymdpJfH79uTUrPARkELVYw9o/zhAjKZXmeikGqGK5C2Yny4gTNoEu0Q==",
+      "type": "package",
+      "files": [
+        "build/_desktop/xunit.execution.desktop.dll",
+        "build/dnx451/_._",
+        "build/monoandroid/_._",
+        "build/monotouch/_._",
+        "build/net45/_._",
+        "build/portable-net45+win8+wp8+wpa81/xunit.core.props",
+        "build/win8/_._",
+        "build/win81/xunit.core.props",
+        "build/wp8/_._",
+        "build/wpa81/xunit.core.props",
+        "build/xamarinios/_._",
+        "xunit.core.2.1.0.nupkg.sha512",
+        "xunit.core.nuspec"
+      ]
+    },
+    "xunit.extensibility.core/2.1.0": {
+      "sha512": "ANWM3WxeaeHjACLRlmrv+xOc0WAcr3cvIiJE+gqbdzTv1NCH4p1VDyT+8WmmdCc9db0WFiJLaDy4YTYsL1wWXw==",
+      "type": "package",
+      "files": [
+        "lib/dotnet/xunit.core.dll",
+        "lib/dotnet/xunit.core.dll.tdnet",
+        "lib/dotnet/xunit.core.pdb",
+        "lib/dotnet/xunit.core.xml",
+        "lib/dotnet/xunit.runner.tdnet.dll",
+        "lib/dotnet/xunit.runner.utility.desktop.dll",
+        "lib/portable-net45+win8+wp8+wpa81/xunit.core.dll",
+        "lib/portable-net45+win8+wp8+wpa81/xunit.core.dll.tdnet",
+        "lib/portable-net45+win8+wp8+wpa81/xunit.core.pdb",
+        "lib/portable-net45+win8+wp8+wpa81/xunit.core.xml",
+        "lib/portable-net45+win8+wp8+wpa81/xunit.runner.tdnet.dll",
+        "lib/portable-net45+win8+wp8+wpa81/xunit.runner.utility.desktop.dll",
+        "xunit.extensibility.core.2.1.0.nupkg.sha512",
+        "xunit.extensibility.core.nuspec"
+      ]
+    },
+    "xunit.extensibility.execution/2.1.0": {
+      "sha512": "tAoNafoVknKa3sZJPMvtZRnhOSk3gasEGeceSm7w/gyGwsR/OXFxndWJB1xSHeoy33d3Z6jFqn4A3j+pWCF0Ew==",
+      "type": "package",
+      "files": [
+        "lib/dnx451/xunit.execution.dotnet.dll",
+        "lib/dnx451/xunit.execution.dotnet.pdb",
+        "lib/dnx451/xunit.execution.dotnet.xml",
+        "lib/dotnet/xunit.execution.dotnet.dll",
+        "lib/dotnet/xunit.execution.dotnet.pdb",
+        "lib/dotnet/xunit.execution.dotnet.xml",
+        "lib/monoandroid/xunit.execution.dotnet.dll",
+        "lib/monoandroid/xunit.execution.dotnet.pdb",
+        "lib/monoandroid/xunit.execution.dotnet.xml",
+        "lib/monotouch/xunit.execution.dotnet.dll",
+        "lib/monotouch/xunit.execution.dotnet.pdb",
+        "lib/monotouch/xunit.execution.dotnet.xml",
+        "lib/net45/xunit.execution.desktop.dll",
+        "lib/net45/xunit.execution.desktop.pdb",
+        "lib/net45/xunit.execution.desktop.xml",
+        "lib/portable-net45+win8+wp8+wpa81/xunit.execution.dotnet.dll",
+        "lib/portable-net45+win8+wp8+wpa81/xunit.execution.dotnet.pdb",
+        "lib/portable-net45+win8+wp8+wpa81/xunit.execution.dotnet.xml",
+        "lib/win8/xunit.execution.dotnet.dll",
+        "lib/win8/xunit.execution.dotnet.pdb",
+        "lib/win8/xunit.execution.dotnet.xml",
+        "lib/wp8/xunit.execution.dotnet.dll",
+        "lib/wp8/xunit.execution.dotnet.pdb",
+        "lib/wp8/xunit.execution.dotnet.xml",
+        "lib/wpa81/xunit.execution.dotnet.dll",
+        "lib/wpa81/xunit.execution.dotnet.pdb",
+        "lib/wpa81/xunit.execution.dotnet.xml",
+        "lib/xamarinios/xunit.execution.dotnet.dll",
+        "lib/xamarinios/xunit.execution.dotnet.pdb",
+        "lib/xamarinios/xunit.execution.dotnet.xml",
+        "xunit.extensibility.execution.2.1.0.nupkg.sha512",
+        "xunit.extensibility.execution.nuspec"
       ]
     },
     "xunit.runner.visualstudio/2.1.0": {
@@ -5384,7 +5580,7 @@
       "Microsoft.AspNetCore.Server.IISIntegration >= 1.0.0-rc2-final",
       "Microsoft.Extensions.Logging.Console >= 1.0.0-rc2-final",
       "Microsoft.Legal.MatterCenter.Web >= 1.0.0-*",
-      "xunit.runner.dnx >= 2.1.0-rc1-build204",
+      "xunit >= 2.1.0",
       "xunit.runner.visualstudio >= 2.1.0"
     ],
     ".NETFramework,Version=v4.5.2": []
