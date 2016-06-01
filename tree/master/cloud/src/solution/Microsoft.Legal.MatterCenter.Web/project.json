@@ -25,10 +25,6 @@
     "Microsoft.Legal.MatterCenter.Models": "1.0.0-*",
     "Microsoft.Legal.MatterCenter.Repository": "1.0.0-*",
     "Microsoft.Legal.MatterCenter.Utility": "1.0.0-*",
-    "Microsoft.NETCore.App": {
-      "version": "1.0.0-rc2-3002702",
-      "type": "platform"
-    },
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0-rc2-final",
     "Swashbuckle.SwaggerGen": "6.0.0-rc1-final",
     "Swashbuckle.SwaggerUi": "6.0.0-rc1-final"
@@ -39,13 +35,7 @@
   },
 
   "frameworks": {
-    "netcoreapp1.0": {
-      "imports": [
-        "dnxcore50",
-        "portable-net45+win8"
-      ]
-    }
-
+    "net452": { }
   },
 
   "exclude": [
