@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 
 namespace System.Net.Mime
 {
-   /* public class CultureInfo
+    public enum TransferEncoding
     {
-        public CultureInfo(string ignore, bool ignoreAgain)
-        {
-        }
+        SevenBit,
+        Unknown,
+        QuotedPrintable,
+        Base64
+    }
 
-    }*/
+
 }

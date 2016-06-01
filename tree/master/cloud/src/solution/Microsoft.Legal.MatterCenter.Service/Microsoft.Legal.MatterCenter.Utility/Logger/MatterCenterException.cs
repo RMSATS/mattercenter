@@ -33,7 +33,7 @@ namespace Microsoft.Legal.MatterCenter.Utility
     /// <summary>
     /// Provides methods for handling custom exception
     /// </summary>
-    [Serializable]
+    //[Serializable] TODO: Get serializable to work
     public class MatterCenterException : Exception
     {
         /// <summary>
@@ -74,8 +74,9 @@ namespace Microsoft.Legal.MatterCenter.Utility
         /// </summary>
         /// <param name="serializationInfo">SerializationInfo object</param>
         /// <param name="streamingContext">Streaming Context object</param>
-        protected MatterCenterException(SerializationInfo serializationInfo, StreamingContext streamingContext)
+        //TODO: Get this to work
+        /*protected MatterCenterException(SerializationInfo serializationInfo, StreamingContext streamingContext)
             : base(serializationInfo, streamingContext)
-        { }
+        { }*/
     }
 }

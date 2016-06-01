@@ -70,7 +70,7 @@ namespace Microsoft.Legal.MatterCenter.Utility
         /// <summary>
         /// Format culture provider
         /// </summary>
-        private IFormatProvider culture = new CultureInfo("en-US", true);
+        private IFormatProvider culture = new CultureInfo("en-us");// TODO: This constructor is not supported in .NET Core: CultureInfo("en-US", true);
 
         /// <summary>
         /// Initializes a new instance of the MailMimeReader class

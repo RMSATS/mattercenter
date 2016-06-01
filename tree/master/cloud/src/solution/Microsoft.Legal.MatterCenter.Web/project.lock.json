@@ -4600,6 +4600,7 @@
         "framework": ".NETStandard,Version=v1.5",
         "dependencies": {
           "Microsoft.CSharp": "4.0.1-rc2-24027",
+          "NETStandard.Library": "1.5.0-rc2-24027",
           "System.Collections": "4.0.11-rc2-24027",
           "System.Linq": "4.1.0-rc2-24027",
           "System.Runtime": "4.1.0-rc2-24027",
