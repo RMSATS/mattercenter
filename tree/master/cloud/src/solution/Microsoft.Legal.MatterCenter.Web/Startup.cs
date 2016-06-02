@@ -35,13 +35,14 @@ namespace Microsoft.Legal.MatterCenter.Web
         public IHostingEnvironment HostingEnvironment { get; }
         public ILoggerFactory LoggerFactory { get; }
         public IConfigurationRoot Configuration { get; set; }
-        public IApplicationEnvironment ApplicationEnvironment { get; }
+       // public IApplicationEnvironment ApplicationEnvironment { get; }
         #endregion    
         
-        public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv, ILoggerFactory logger)
+       // public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv, ILoggerFactory logger)
+        public Startup(IHostingEnvironment env, /*IApplicationEnvironment appEnv,*/ ILoggerFactory logger)
         {
             this.HostingEnvironment = env;
-            this.ApplicationEnvironment = appEnv;
+           // this.ApplicationEnvironment = appEnv;
             this.LoggerFactory = logger;
         } 
 
@@ -50,7 +51,8 @@ namespace Microsoft.Legal.MatterCenter.Web
         {
           
             var builder = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
+                .SetBasePath(HostingEnvironment.ContentRootPath)
+               .AddJsonFile("appsettings.json")
                 .AddEnvironmentVariables();
 
             if (HostingEnvironment.IsDevelopment())
@@ -61,6 +63,7 @@ namespace Microsoft.Legal.MatterCenter.Web
             
             Configuration = builder.Build();
             ConfigureSettings(services);
+
             services.AddCors();
             services.AddLogging();
             ConfigureMvc(services, LoggerFactory);
@@ -81,7 +84,7 @@ namespace Microsoft.Legal.MatterCenter.Web
             {
                 loggerFactory.AddConsole(Configuration.GetSection("Logging"));
                 loggerFactory.AddDebug();
-                app.UseIISPlatformHandler();
+               // app.UseIISPlatformHandler();
                 
                 app.UseApplicationInsightsRequestTelemetry();
                 if (env.IsDevelopment())
@@ -118,7 +121,19 @@ namespace Microsoft.Legal.MatterCenter.Web
         }
 
         // Entry point for the application.
-        public static void Main(string[] args) => WebApplication.Run<Startup>(args);
+        // public static void Main(string[] args) => WebApplication.Run<Startup>(args);
+
+        public static void Main(string[] args)
+        {
+            var host = new WebHostBuilder()
+                .UseKestrel()
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseIISIntegration()
+                .UseStartup<Startup>()
+                .Build();
+
+            host.Run();
+        }
 
         #region Private Methods
 
@@ -128,7 +143,7 @@ namespace Microsoft.Legal.MatterCenter.Web
         private void ConfigureSwagger(IServiceCollection services)
         {
             services.AddSwaggerGen();
-            services.ConfigureSwaggerDocument(options => {
+           /* services.ConfigureSwaggerDocument(options => {
                 options.SingleApiVersion(new Info
                 {
                     Version = "v1",
@@ -139,7 +154,7 @@ namespace Microsoft.Legal.MatterCenter.Web
                 options.OperationFilter(new Swashbuckle.SwaggerGen.XmlComments.ApplyXmlActionComments(pathToDoc));
 
             });
-
+            
             services.ConfigureSwaggerSchema(options =>
             {
                 options.DescribeAllEnumsAsStrings = true;
@@ -147,6 +162,7 @@ namespace Microsoft.Legal.MatterCenter.Web
                 options.ModelFilter(new Swashbuckle.SwaggerGen.XmlComments.ApplyXmlTypeComments(pathToDoc));
 
             });
+            */
         }
 
 
@@ -209,7 +225,7 @@ namespace Microsoft.Legal.MatterCenter.Web
 
         private void CheckAuthorization(IApplicationBuilder app)
         {
-            app.UseJwtBearerAuthentication(options =>
+        /*    app.UseJwtBearerAuthentication(options =>
             {
                 options.AutomaticAuthenticate = true;
                 options.Authority = String.Format(CultureInfo.InvariantCulture,
@@ -225,7 +241,7 @@ namespace Microsoft.Legal.MatterCenter.Web
                         return Task.FromResult(0);
                     }
                 };
-            });
+            }); */
         }
 
         private void CreateConfig(IHostingEnvironment env)

@@ -4,6 +4,7 @@ using Microsoft.Legal.MatterCenter.Models;
 using System.Net.Http;
 using Microsoft.Legal.MatterCenter.Service;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Microsoft.Legal.MatterCenter.ServiceTest
 {
@@ -12,7 +13,7 @@ namespace Microsoft.Legal.MatterCenter.ServiceTest
         private readonly TestServer testServer;
         public DocumentUnitTest()
         {
-            testServer = new TestServer(TestServer.CreateBuilder().UseStartup<Startup>());
+            testServer = new TestServer(new WebHostBuilder().UseStartup<Startup>());
         }
         
         

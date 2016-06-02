@@ -247,7 +247,7 @@ namespace Microsoft.Legal.MatterCenter.Repository
             {
                 Uri clientUrl = new Uri(clientAddressPath);
                 //ToDo: Need to validate the url path
-                string oneNotePath = hostingEnvironment.MapPath(ServiceConstants.ONE_NOTE_RELATIVE_FILE_PATH);
+                string oneNotePath = hostingEnvironment.WebRootPath + ServiceConstants.ONE_NOTE_RELATIVE_FILE_PATH;
                 byte[] oneNoteFile = System.IO.File.ReadAllBytes(oneNotePath);
                 Web web = clientContext.Web;
                 Microsoft.SharePoint.Client.File file = web.GetFolderByServerRelativeUrl(oneNoteLocation).Files.Add(new FileCreationInformation()

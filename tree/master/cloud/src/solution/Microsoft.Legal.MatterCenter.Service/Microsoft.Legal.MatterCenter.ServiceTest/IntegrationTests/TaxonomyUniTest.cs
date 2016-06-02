@@ -1,5 +1,4 @@
 ﻿using Xunit;
-using Microsoft.AspNetCore.TestHost;
 using Microsoft.Legal.MatterCenter.Models;
 using System.Net.Http;
 using Microsoft.Legal.MatterCenter.Service;
@@ -8,6 +7,8 @@ using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using System.Threading.Tasks;
 using Microsoft.Extensions.OptionsModel;
 using Microsoft.Legal.MatterCenter.Utility;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Microsoft.Legal.MatterCenter.ServiceTest
 {
@@ -19,7 +20,7 @@ namespace Microsoft.Legal.MatterCenter.ServiceTest
         
         public TaxonomyUniTest()
         {
-            testServer = new TestServer(TestServer.CreateBuilder().UseStartup<Startup>());
+            testServer = new TestServer(new WebHostBuilder().UseStartup<Startup>());
         }
         [Fact]
         public async void Get_Current_Site_Title()

@@ -34,13 +34,14 @@ namespace Microsoft.Legal.MatterCenter.ServiceTest
         public IHostingEnvironment HostingEnvironment { get; }
         public ILoggerFactory LoggerFactory { get; }
         public IConfigurationRoot Configuration { get; set; }
-        public IApplicationEnvironment ApplicationEnvironment { get; }
+        // public IApplicationEnvironment ApplicationEnvironment { get; }
         #endregion
 
-        public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv, ILoggerFactory logger)
+        // public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv, ILoggerFactory logger)
+        public Startup(IHostingEnvironment env, /*IApplicationEnvironment appEnv,*/ ILoggerFactory logger)
         {
             this.HostingEnvironment = env;
-            this.ApplicationEnvironment = appEnv;
+            // this.ApplicationEnvironment = appEnv;
             this.LoggerFactory = logger;
         }
 
@@ -80,7 +81,7 @@ namespace Microsoft.Legal.MatterCenter.ServiceTest
             {
                 loggerFactory.AddConsole(Configuration.GetSection("Logging"));
                 loggerFactory.AddDebug();
-                app.UseIISPlatformHandler();
+                // app.UseIISPlatformHandler();
 
                 app.UseApplicationInsightsRequestTelemetry();
                 if (env.IsDevelopment())
@@ -117,7 +118,19 @@ namespace Microsoft.Legal.MatterCenter.ServiceTest
         }
 
         // Entry point for the application.
-        public static void Main(string[] args) => WebApplication.Run<Startup>(args);
+        // public static void Main(string[] args) => WebApplication.Run<Startup>(args);
+
+        public static void Main(string[] args)
+        {
+            var host = new WebHostBuilder()
+                .UseKestrel()
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseIISIntegration()
+                .UseStartup<Startup>()
+                .Build();
+
+            host.Run();
+        }
 
         #region Private Methods
 
@@ -127,25 +140,26 @@ namespace Microsoft.Legal.MatterCenter.ServiceTest
         private void ConfigureSwagger(IServiceCollection services)
         {
             services.AddSwaggerGen();
-            services.ConfigureSwaggerDocument(options => {
-                options.SingleApiVersion(new Info
-                {
-                    Version = "v1",
-                    Title = "Matter Center API Version V1",
-                    Description = "This matter center api is for V1 release"
-                });
-                options.IgnoreObsoleteActions = true;
-                options.OperationFilter(new Swashbuckle.SwaggerGen.XmlComments.ApplyXmlActionComments(pathToDoc));
+            /* services.ConfigureSwaggerDocument(options => {
+                 options.SingleApiVersion(new Info
+                 {
+                     Version = "v1",
+                     Title = "Matter Center API Version V1",
+                     Description = "This matter center api is for V1 release"
+                 });
+                 options.IgnoreObsoleteActions = true;
+                 options.OperationFilter(new Swashbuckle.SwaggerGen.XmlComments.ApplyXmlActionComments(pathToDoc));
 
-            });
+             });
 
-            services.ConfigureSwaggerSchema(options =>
-            {
-                options.DescribeAllEnumsAsStrings = true;
-                options.IgnoreObsoleteProperties = true;
-                options.ModelFilter(new Swashbuckle.SwaggerGen.XmlComments.ApplyXmlTypeComments(pathToDoc));
+             services.ConfigureSwaggerSchema(options =>
+             {
+                 options.DescribeAllEnumsAsStrings = true;
+                 options.IgnoreObsoleteProperties = true;
+                 options.ModelFilter(new Swashbuckle.SwaggerGen.XmlComments.ApplyXmlTypeComments(pathToDoc));
 
-            });
+             });
+             */
         }
 
 
@@ -208,23 +222,23 @@ namespace Microsoft.Legal.MatterCenter.ServiceTest
 
         private void CheckAuthorization(IApplicationBuilder app)
         {
-            app.UseJwtBearerAuthentication(options =>
-            {
-                options.AutomaticAuthenticate = true;
-                options.Authority = String.Format(CultureInfo.InvariantCulture,
-                    this.Configuration.GetSection("General").GetSection("AADInstance").Value.ToString(),
-                    this.Configuration.GetSection("General").GetSection("Tenant").Value.ToString());
-                options.Audience = this.Configuration.GetSection("General").GetSection("ClientId").Value.ToString();
-                options.Events = new JwtBearerEvents
+            /*    app.UseJwtBearerAuthentication(options =>
                 {
-                    OnAuthenticationFailed = context => {
-                        return Task.FromResult(0);
-                    },
-                    OnValidatedToken = context => {
-                        return Task.FromResult(0);
-                    }
-                };
-            });
+                    options.AutomaticAuthenticate = true;
+                    options.Authority = String.Format(CultureInfo.InvariantCulture,
+                        this.Configuration.GetSection("General").GetSection("AADInstance").Value.ToString(),
+                        this.Configuration.GetSection("General").GetSection("Tenant").Value.ToString());
+                    options.Audience = this.Configuration.GetSection("General").GetSection("ClientId").Value.ToString();
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnAuthenticationFailed = context => {
+                            return Task.FromResult(0);
+                        },
+                        OnValidatedToken = context => {
+                            return Task.FromResult(0);
+                        }
+                    };
+                }); */
         }
 
         private void CreateConfig(IHostingEnvironment env)
